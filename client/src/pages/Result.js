@@ -5,36 +5,42 @@ import CircularGraph from "../components/CircularGraph";
 import styles from "../styles/css/resultPage/Result.module.css";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';  // Import the back arrow icon
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'; 
 
 const Result = () => {
     const navigate = useNavigate();
-    const { firstname } = useParams(); // ดึง `firstname` จาก URL
+    const { firstname } = useParams(); 
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!firstname) {
-            setError('ไม่พบข้อมูล');
-            setLoading(false);
-            return;
-        }
-    
-        const fetchEvaluation = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3001/evaluations`);
-                console.log('Data fetched:', response.data);
-                setFormData(response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching evaluation:', error);
-                setError('เกิดข้อผิดพลาดในการดึงข้อมูล');
-                setLoading(false);
-            }
-        };
-        fetchEvaluation();
-    }, [firstname]);
+      if (!firstname) {
+          setError('ไม่พบข้อมูล');
+          setLoading(false);
+          return;
+      }
+  
+      const fetchEvaluation = async () => {
+          try {
+              const response = await axios.get('http://localhost:3001/evaluations');
+              if (response.status === 200) {
+                  setFormData(response.data);
+                  console.log('Data fetched:', response.data);
+              } else {
+                  setError('Failed to fetch data');
+              }
+              setLoading(false);
+          } catch (error) {
+              console.error('Error fetching evaluation:', error);
+              setError('เกิดข้อผิดพลาดในการดึงข้อมูล');
+              setLoading(false);
+          }
+      };
+  
+      fetchEvaluation();
+  }, [firstname]);
+  
 
     if (loading) return <p>กำลังโหลดข้อมูล...</p>;
     if (error) return <div>
@@ -48,7 +54,7 @@ const Result = () => {
         reliability = 0,
         justinTime = 0,
         saving = 0,
-        finally: finallyValue = 0,
+        finallyscore = 0,
         qualityOfWork = 0,
         reliabilityOfTheWork = 0,
         timeLiness = 0,
@@ -72,7 +78,7 @@ const Result = () => {
     const calculateAverage = (total, count) => total / count;
 
     const dataQuantity = calculateTotal([quantity, achievement, reliability, justinTime, saving]);
-    const performanceQuantity = calculateTotal([finallyValue, qualityOfWork, reliabilityOfTheWork, timeLiness]);
+    const performanceQuantity = calculateTotal([finallyscore, qualityOfWork, reliabilityOfTheWork, timeLiness]);
     const combinedTotal = dataQuantity + performanceQuantity;
     const combinedAverage = calculateAverage(combinedTotal, 5);
 
@@ -160,7 +166,7 @@ const Result = () => {
               </tr>
               <tr>
                 <td>1.2.1 ผลสำเร็จของงาน</td>
-                <td className={styles.rightContainer}>{finallyValue}</td>
+                <td className={styles.rightContainer}>{finallyscore}</td>
               </tr>
               <tr>
                 <td>1.2.2 คุณภาพของผลงาน</td>

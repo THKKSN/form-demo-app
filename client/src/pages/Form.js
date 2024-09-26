@@ -247,7 +247,7 @@ const Form = () => {
       const response = await submitFormData(formData);
       if (response.status === 200) {
         console.log("การประเมินถูกบันทึกเรียบร้อยแล้ว");
-        navigate("/success"); // Now correctly used
+        navigate("/success");
       }
     } catch (error) {
       console.error("เกิดข้อผิดพลาดในการส่งข้อมูล:", error.message);

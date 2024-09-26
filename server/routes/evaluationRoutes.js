@@ -1,19 +1,16 @@
-// routes/evaluationRoutes.js
 const express = require('express');
 const router = express.Router();
-const Evaluation = require('../models/Evaluation');
-const auth = require('../middleware/authMiddleware');
+const Evaluation = require('../models/Evaluation')
 
-// Get all evaluations
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const evaluations = await Evaluation.find();
+    console.log('Evaluations:', evaluations); // Log to see the data
     res.status(200).json(evaluations);
   } catch (error) {
-    res.status(500).json({ error: "Error fetching evaluations" });
+    console.error('Error fetching evaluations:', error);
+    res.status(500).json({ message: 'Failed to fetch evaluations' });
   }
 });
-
-// Add other routes like POST /evaluations here
 
 module.exports = router;
