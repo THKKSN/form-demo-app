@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import CircularGraph from "../components/CircularGraph";
 import styles from "../styles/css/resultPage/Result.module.css";
-import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'; 
 
@@ -11,6 +10,7 @@ const Result = () => {
     const navigate = useNavigate();
     const { firstname } = useParams(); 
     const [formData, setFormData] = useState({});
+    const [evaluators, setEvaluators] = useState([]); // New state for evaluators
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -30,6 +30,15 @@ const Result = () => {
               } else {
                   setError('Failed to fetch data');
               }
+
+              // Fetch evaluators separately or as part of the same response
+              const evaluatorResponse = await axios.get('http://localhost:3001/evaluators'); // Adjust this endpoint as necessary
+              if (evaluatorResponse.status === 200) {
+                  setEvaluators(evaluatorResponse.data);
+              } else {
+                  setError('Failed to fetch evaluators');
+              }
+
               setLoading(false);
           } catch (error) {
               console.error('Error fetching evaluation:', error);
@@ -43,10 +52,12 @@ const Result = () => {
   
 
     if (loading) return <p>กำลังโหลดข้อมูล...</p>;
-    if (error) return <div>
-        <p>{error}</p>
-        <button onClick={() => navigate('/')}>กลับไปที่หน้าหลัก</button>
-    </div>;
+    if (error) return (
+        <div>
+            <p>{error}</p>
+            <button onClick={() => navigate('/')}>กลับไปที่หน้าหลัก</button>
+        </div>
+    );
 
     const {
         quantity = 0,
@@ -82,10 +93,7 @@ const Result = () => {
     const combinedTotal = dataQuantity + performanceQuantity;
     const combinedAverage = calculateAverage(combinedTotal, 5);
 
-    const competencyQuantity = calculateTotal([
-        personality, maintaining, communication, relationship, sacrifice, cooperate, conduct, punctuality,
-        focused, initiative, knowledge, sense, development, vision
-    ]);
+    const competencyQuantity = calculateTotal([personality, maintaining, communication, relationship, sacrifice, cooperate, conduct, punctuality, focused, initiative, knowledge, sense, development, vision]);
     const competencyAverage = calculateAverage(competencyQuantity, 15);
 
     const data = [combinedAverage, competencyAverage];
@@ -251,6 +259,14 @@ const Result = () => {
               </tr>
                         </tbody>
                     </table>
+                </div>
+                <div className={styles.evaluatorsContainer}>
+                    <h3>รายชื่อผู้ประเมิน</h3>
+                    <ul>
+                        {evaluators.map((evaluator, index) => (
+                            <li key={index}>{evaluator.name}</li> // Adjust this based on your evaluator object structure
+                        ))}
+                    </ul>
                 </div>
             </div>
         </div>
