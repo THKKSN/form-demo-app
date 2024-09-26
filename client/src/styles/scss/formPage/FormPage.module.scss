@@ -1,0 +1,150 @@
+@import url("https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap");
+
+.formContainer {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
+  width: 500px;
+  margin: 80px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start; 
+  justify-content: center;
+}
+
+p {
+  color: #333;
+  font-size: 16px;
+  padding: 10px;
+}
+
+.header {
+  font-size: 24px;
+  font-weight: bold;
+  color: #167abc;
+  margin-bottom: 20px;
+}
+
+.radioContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.hiddenRadio {
+  display: none;
+}
+
+.radioLabel {
+  display: block;
+  margin-bottom: 12px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  width: 450px;
+}
+
+.radioLabel:hover {
+  background-color: #f0f0f0;
+  border-color: #167abc;
+}
+
+.selected {
+  background-color: #e6f7ff;
+  border-color: #1890ff;
+}
+
+.submit {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background-color: #167abc;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit:hover {
+  background-color: #145a86;
+}
+
+.backButton {
+  position: fixed;
+  width: 10%;
+  top: 20px;
+  left: 20px;
+  background-color: #167abc;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.backButton:hover {
+  background-color: #145a86;
+}
+
+.evaluators {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 10px;
+  padding: 10px;
+}
+
+/* เพิ่ม media query เพื่อทำให้ responsive บนโทรศัพท์มือถือ */
+@media (max-width: 768px) {
+  .formContainer {
+    width: 90%; /* ลดขนาดความกว้างเมื่ออยู่บนหน้าจอขนาดเล็ก */
+    margin: 50px auto;
+    padding: 20px;
+  }
+
+  .radioLabel {
+    width: 350px; /* ให้ radio buttons ใช้พื้นที่เต็มที่ */
+    padding: 12px;
+    margin: 10px auto;
+  }
+
+  .submit {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .backButton {
+    width: auto; /* ให้ปุ่ม Back ใช้ขนาดพอดีกับเนื้อหา */
+    top: 10px;
+    left: 10px;
+    padding: 10px 20px;
+    width: 15%;
+  }
+
+  .header {
+    font-size: 20px; /* ลดขนาด font สำหรับหัวข้อ */
+  }
+}
+@media (max-width: 450px){
+  .radioLabel {
+    width: 100%; /* ให้ radio buttons ใช้พื้นที่เต็มที่ */
+    padding: 12px;
+  }
+}

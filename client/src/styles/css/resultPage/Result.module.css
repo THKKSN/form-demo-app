@@ -1,0 +1,125 @@
+body {
+  background-color: #fff;
+}
+
+h2 {
+  color: #000;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: row; /* เรียงกราฟและตารางในแนวตั้ง */
+  justify-content: center; /* จัดตำแหน่งกราฟและตารางตรงกลางแนวตั้ง */
+  min-height: 100vh; /* ให้ความสูงอย่างน้อยของ container เท่ากับความสูงของหน้าจอ */
+  padding: 20px;
+  box-sizing: border-box; /* รวม padding และ border เข้ากับขนาดรวมของ container */
+}
+
+.graphContainer,
+.tableContainer {
+  max-width: 100%;
+  margin: 20px 0; /* ระยะห่างระหว่างกราฟและตาราง */
+}
+
+.tableContainer {
+  width: 100%; /* ให้ตารางขยายเต็มความกว้างของ container */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse; /* รวมขอบเซลล์ */
+  border: 1px solid rgb(163, 163, 163); /* ขอบของตาราง */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5); /* เงาของตาราง */
+  font-size: 12px; /* ขนาดตัวอักษรในตาราง */
+  margin: 0 auto; /* จัดตำแหน่งตารางกลาง */
+}
+
+th,
+td {
+  border: 1px solid rgb(163, 163, 163); /* ขอบของเซลล์ */
+  padding: 8px; /* ระยะห่างภายในเซลล์ */
+  text-align: left; /* การจัดตำแหน่งตัวอักษรในเซลล์ */
+  color: #000; /* สีของตัวอักษร */
+}
+
+th {
+  background-color: #000; /* สีพื้นหลังของหัวตาราง */
+  color: #fff; /* สีของตัวอักษรในหัวตาราง */
+}
+
+thead tr:first-child th {
+  background-color: #ff0000; /* สีพื้นหลังของแถวแรกในหัวตาราง */
+  text-align: center; /* การจัดตำแหน่งตัวอักษรในหัวตาราง */
+}
+
+td[colspan="2"] {
+  font-weight: bold; /* ทำให้ตัวอักษรหนา */
+  text-align: center;
+}
+
+.centerContainer {
+  text-align: center; /* การจัดตำแหน่งตัวอักษรในเซลล์ให้กึ่งกลาง */
+}
+
+.evaluationText {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.rightContainer{
+  text-align: right;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .graphContainer,
+  .tableContainer {
+    width: 100%; /* ให้กราฟและตารางขยายเต็มความกว้างของหน้าจอ */
+  }
+}
+button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #d4d4d4;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #daa520;
+}
+.backButton {
+  position: fixed;
+  width: 10%;
+  top: 20px;
+  left: 20px;
+  background-color: #167abc;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.backButton:hover {
+  background-color: #145a86;
+}
+@media screen and (max-width: 600px) {
+  .backButton {
+    width: 15%;
+  }
+}

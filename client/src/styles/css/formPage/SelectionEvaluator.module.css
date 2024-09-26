@@ -1,0 +1,39 @@
+.evaluators {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .evaluators label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .evaluator_select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 16px;
+    color: #333;
+    transition: border-color 0.3s ease;
+  
+    &:hover,
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+  }
+  
+  .evaluator_select option {
+    padding: 10px;
+  }
+  

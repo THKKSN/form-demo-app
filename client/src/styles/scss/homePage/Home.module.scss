@@ -1,0 +1,141 @@
+@import url("https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800&display=swap");
+
+* {
+    font-family: "Sarabun", sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f2f5;
+}
+
+nav {
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    ul li {
+        --c: #daa520;
+        color: var(--c);
+        font-size: 18px;
+        border: 0.3em solid var(--c);
+        border-radius: 0.5em;
+        width: 15em;
+        height: 3em;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 0.1em;
+        text-align: center;
+        line-height: 3em;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        transition: 0.5s;
+        margin: 1em 0;
+        cursor: pointer;
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+
+        span {
+            position: absolute;
+            width: 25%;
+            height: 100%;
+            background-color: var(--c);
+            transform: translateY(150%);
+            border-radius: 50%;
+            left: calc((var(--n) - 1) * 25%);
+            transition: 0.5s;
+            transition-delay: calc((var(--n) - 1) * 0.1s);
+            z-index: -1;
+        }
+
+        &:hover {
+            color: black;
+            
+            span {
+                transform: translateY(0) scale(2);
+            }
+        }
+
+        span:nth-child(1) { --n: 1; }
+        span:nth-child(2) { --n: 2; }
+        span:nth-child(3) { --n: 3; }
+        span:nth-child(4) { --n: 4; }
+    }
+}
+
+.topLeftContainer {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.buttonCommon {
+    background-color: #ffffff;
+    color: #000;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+
+    &.loginButton:hover {
+        background-color: #28a745; // Green
+        color: #fff;
+    }
+
+    &.logoutButton:hover {
+        background-color: #d60000; // Red
+        color: #fff;
+    }
+}
+
+.fullName {
+    font-size: 1.5rem;
+    margin-top: 100px;
+    &::after {
+        content: " Welcome: คุณ " attr(data-firstname) " " attr(data-lastname);
+    }
+}
+
+@media (max-width: 768px) {
+    .buttonCommon {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    nav ul li {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    .fullName {
+        margin-top: 100px;
+        &::after {
+            content: "Welcome: คุณ " attr(data-firstname); /* แสดงแค่ firstName */
+        }
+    }
+}

@@ -1,0 +1,31 @@
+.graphContainer {
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.chartText {
+  position: absolute;
+  top: 54%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.doughnutCanvas {
+  margin: 10px; /* Added margin around the canvas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added box-shadow */
+  transition: transform 0.3s ease-in-out, z-index 0.3s; /* Smooth transition on hover */
+  z-index: 2;
+}
+
+.graphContainer:hover .doughnutCanvas {
+  transform: scale(1.2);
+  z-index: 3;
+}
