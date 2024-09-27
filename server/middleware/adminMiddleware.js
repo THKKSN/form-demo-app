@@ -1,10 +1,9 @@
-const adminAuth = (req, res, next) => {
-    if (req.user && req.user.isAdmin) {
-      next(); // หากเป็น Admin ให้ดำเนินการต่อ
-    } else {
-      res.status(403).json({ message: 'Access denied. Admins only.' });
-    }
-  };
-  
-  module.exports = adminAuth;
-  
+// Middleware สำหรับตรวจสอบสิทธิ์ Admin
+const adminMiddleware = (req, res, next) => {
+  if (!req.user.isAdmin) {
+    return res.status(403).json({ message: "Access Denied: Admins Only" });
+  }
+  next();
+};
+
+module.exports = adminMiddleware;

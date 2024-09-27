@@ -7,7 +7,6 @@ import Form from './pages/Form';
 import Result from './pages/Result';
 import Success from './pages/Success';
 
-
 const App = () => {
   return (
     <Router>

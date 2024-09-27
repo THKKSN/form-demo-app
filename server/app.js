@@ -14,6 +14,7 @@ const jwt = require("jsonwebtoken");
 const app = express();
 const evaluationRoutes = require('./routes/evaluationRoutes');
 const evaluatorRoutes = require('./routes/evaluatorRoutes')
+const resultRoutes = require('./routes/resultRoutes')
 const cors = require('cors');
 const corsOptions = { origin: 'http://localhost:3000', optionsSuccessStatus: 200 };
 
@@ -23,6 +24,8 @@ app.use('/evaluations', evaluationRoutes);
 app.use('/evaluator', evaluatorRoutes);
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use("/results", resultRoutes);
+
 
 // Register
 app.post("/register", async (req, res) => {
@@ -158,6 +161,14 @@ app.post('/evaluations', async (req, res) => {
 });
 
 
+app.get('/evaluations', async (req, res) => {
+  try {
+      const evaluations = await Evaluation.find();
+      res.json(evaluations);
+  } catch (error) {
+      res.status(500).json({ message: 'Error fetching evaluations' });
+  }
+});
 
 
 module.exports = app;
