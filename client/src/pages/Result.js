@@ -5,9 +5,9 @@ import CircularGraph from "../components/CircularGraph";
 import styles from "../styles/css/resultPage/Result.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import UserAccess from "../components/UserAccess";
+// import UserAccess from "../components/UserAccess";
 
-const Result = ({ user }) => {
+const Result = () => {
     const navigate = useNavigate();
     const { id } = useParams(); // รับ id จาก URL
     const [formData, setFormData] = useState(null); // กำหนดค่าเริ่มต้นเป็น null
@@ -25,9 +25,9 @@ const Result = ({ user }) => {
                     setFormData(response.data);
                     
                     // ดึงข้อมูลผู้ประเมินจาก formData.evaluators
-                    const evaluatorId = response.data.evaluators;
-                    if (evaluatorId) {
-                        const evaluatorResponse = await axios.get(`http://localhost:3001/users/${evaluatorId}`);
+                    const evaluator = response.data.evaluators;
+                    if (evaluator) {
+                        const evaluatorResponse = await axios.get(`http://localhost:3001/evaluations`);
                         if (evaluatorResponse.status === 200) {
                             setEvaluators([evaluatorResponse.data]);
                             setUserNames({ [evaluatorResponse.data._id]: `${evaluatorResponse.data.first_name} ${evaluatorResponse.data.last_name}` });
@@ -66,14 +66,14 @@ const Result = ({ user }) => {
         saving = 0,
         finallyscore = 0,
         qualityOfWork = 0,
-        reliabilityOfTheWork = 0,
-        timeLiness = 0,
+        reliabilityOfWork = 0,
+        timeliness = 0,
         personality = 0,
         maintaining = 0,
         communication = 0,
         relationship = 0,
         sacrifice = 0,
-        cooperate = 0,
+        cooperation = 0,
         conduct = 0,
         punctuality = 0,
         focused = 0,
@@ -90,13 +90,13 @@ const Result = ({ user }) => {
 
     // คำนวณคะแนนของกลุ่มงานประจำ
     const dataQuantity = calculateTotal([quantity, achievement, reliability, justinTime, saving]);
-    const performanceQuantity = calculateTotal([finallyscore, qualityOfWork, reliabilityOfTheWork, timeLiness]);
+    const performanceQuantity = calculateTotal([finallyscore, qualityOfWork, reliabilityOfWork, timeliness]);
     const combinedTotal = dataQuantity + performanceQuantity;
     const combinedAverage = calculateAverage(combinedTotal, 5);
 
     // คำนวณคะแนนสมรรถนะ
-    const competencyQuantity = calculateTotal([personality, maintaining, communication, relationship, sacrifice, cooperate, conduct, punctuality, focused, initiative, knowledge, sense, development, vision]);
-    const competencyAverage = calculateAverage(competencyQuantity, 15);
+    const competencyQuantity = calculateTotal([personality, maintaining, communication, relationship, sacrifice, cooperation, conduct, punctuality, focused, initiative, knowledge, sense, development, vision]);
+    const competencyAverage = calculateAverage(competencyQuantity, 5);
 
     // สร้างข้อมูลสำหรับการประเมิน
     const data = [combinedAverage, competencyAverage];
@@ -131,9 +131,8 @@ const Result = ({ user }) => {
               <FontAwesomeIcon icon={faArrowLeft} />
           </button>
           <div>
-
-              <h1>ผลการประเมินของ {firstname}</h1>
-              <pre>{JSON.stringify(formData, null, 2)}</pre>
+              <h1>ผลการประเมินของ {firstname}</h1>   
+              
   
               <h2>ผู้ประเมิน</h2>
               <ul>
@@ -201,11 +200,11 @@ const Result = ({ user }) => {
                           </tr>
                           <tr>
                               <td>1.2.3 ความเชื่อถือได้ของผลงาน</td>
-                              <td className={styles.rightContainer}>{reliabilityOfTheWork}</td>
+                              <td className={styles.rightContainer}>{reliabilityOfWork}</td>
                           </tr>
                           <tr>
                               <td>1.2.4 ความทันเวลา</td>
-                              <td className={styles.rightContainer}>{timeLiness}</td>
+                              <td className={styles.rightContainer}>{timeliness}</td>
                           </tr>
                           <tr>
                               <td>รวมคะแนนผลสัมฤทธิ์ของงาน (เต็ม 350 คะแนน)</td>
@@ -236,7 +235,7 @@ const Result = ({ user }) => {
                           </tr>
                           <tr>
                               <td>2.2.4 ความร่วมมือ</td>
-                              <td className={styles.rightContainer}>{cooperate}</td>
+                              <td className={styles.rightContainer}>{cooperation}</td>
                           </tr>
                           <tr>
                               <td>2.3.1 การปฏิบัติตน</td>

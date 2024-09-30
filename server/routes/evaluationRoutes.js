@@ -4,7 +4,7 @@ const Evaluation = require('../models/Evaluation')
 
 router.get('/', async (req, res) => {
   try {
-    const evaluations = await Evaluation.find();
+    const evaluations = await Evaluation.findOne();
     console.log('Evaluations:', evaluations); 
     res.status(200).json(evaluations);
   } catch (error) {
