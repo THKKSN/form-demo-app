@@ -5,7 +5,7 @@ import CircularGraph from "../components/CircularGraph";
 import styles from "../styles/css/resultPage/Result.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-// import UserAccess from "../components/UserAccess";
+
 
 const Result = () => {
     const navigate = useNavigate();
@@ -17,9 +17,8 @@ const Result = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchEvaluation = async (userId) => {
+        const fetchEvaluation = async () => {
             try {
-                // ดึงข้อมูลการประเมินของผู้ใช้ที่มี id
                 const response = await axios.get(`http://localhost:3001/evaluations`);
                 if (response.status === 200) {
                     setFormData(response.data);
@@ -30,7 +29,7 @@ const Result = () => {
                         const evaluatorResponse = await axios.get(`http://localhost:3001/evaluations`);
                         if (evaluatorResponse.status === 200) {
                             setEvaluators([evaluatorResponse.data]);
-                            setUserNames({ [evaluatorResponse.data._id]: `${evaluatorResponse.data.first_name} ${evaluatorResponse.data.last_name}` });
+                            setUserNames({[evaluatorResponse.data._id]: `${evaluatorResponse.data.first_name} ${evaluatorResponse.data.last_name}`});
                         }
                     }
                 } else {
@@ -57,7 +56,6 @@ const Result = () => {
 
     if (!formData) return <p>ไม่มีข้อมูลการประเมิน</p>;
 
-    const { firstname } = formData;
     const {
         quantity = 0,
         achievement = 0,
@@ -100,7 +98,7 @@ const Result = () => {
 
     // สร้างข้อมูลสำหรับการประเมิน
     const data = [combinedAverage, competencyAverage];
-    const evaluation = data.reduce((acc, value) => acc + value, 0);
+    const evaluation = data.reduce((acc, value) => acc + value, 0).toFixed(2);
 
     // ฟังก์ชันการประเมินเกณฑ์
     const getEvaluationCriteria = (score) => {
@@ -131,14 +129,12 @@ const Result = () => {
               <FontAwesomeIcon icon={faArrowLeft} />
           </button>
           <div>
-              <h1>ผลการประเมินของ {firstname}</h1>   
-              
-  
+              <h1>ผลการประเมินของ</h1>   
               <h2>ผู้ประเมิน</h2>
               <ul>
-                  {evaluators.map((evaluator) => (
-                      <li key={evaluator.id}>
-                          {userNames[evaluator.user_id] || 'ไม่พบชื่อผู้ประเมิน'}
+                  {evaluators.map((evaluators) => (
+                      <li key={evaluators._id}>
+                          {userNames[evaluators._id] || 'ไม่พบชื่อผู้ประเมิน'}
                       </li>
                   ))}
               </ul>

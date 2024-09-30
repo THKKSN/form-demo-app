@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import styles from '../styles/css/resultPage/EvaluationSelect.css';
 
 const EvaluationSelect = () => {
   const [evaluators, setEvaluators] = useState([]);
@@ -31,7 +32,6 @@ const EvaluationSelect = () => {
 
   const handleEvaluatorSelect = () => {
     if (selectedEvaluator) {
-      // นำทางไปยัง Result พร้อมส่ง ID ของ evaluator ที่เลือก
       navigate('/dashboard', { state: { evaluatorId: selectedEvaluator } });
     }
   };
@@ -40,7 +40,7 @@ const EvaluationSelect = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
+    <div className={styles.container}>
       <label htmlFor="evaluator-select">เลือกผู้ได้รับการประเมิน:</label>
       <select 
         id="evaluator-select" 

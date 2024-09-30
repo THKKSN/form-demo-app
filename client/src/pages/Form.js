@@ -477,7 +477,7 @@ const Form = () => {
             {formError && (
               <p style={{ color: "red" }}>กรุณากรอกข้อมูลให้ครบทุกข้อ</p>
             )}
-            <button className={styles.submit} type="submit">
+            <button className={styles.submit} type="submit" onClick={handleSubmit}>
               Submit
             </button>
             {error && <p className={styles.error}>{error}</p>}
