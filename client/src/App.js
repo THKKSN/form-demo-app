@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Login from './pages/Login'; 
 import Home from './pages/Home'; 
 import ProtectedRoute from './components/ProtectedRoute';
+import ErrorBoundary from './components/ErrorBondary';
 import Form from './pages/Form';
 import Result from './pages/Result';
 import Success from './pages/Success';
+import EvaluationSelect from './components/EvaluationSelect'; 
 
 const App = () => {
   return (
@@ -28,13 +30,14 @@ const App = () => {
             </ProtectedRoute>
           } 
         />
+        <Route path="/selectevaluation" element={<EvaluationSelect />} />
         <Route 
           path="/dashboard" 
           element={
-            <ProtectedRoute>
+            <ErrorBoundary>
               <Result />
-            </ProtectedRoute>
-          } 
+            </ErrorBoundary>
+          }
         />
         <Route 
           path="/success" 

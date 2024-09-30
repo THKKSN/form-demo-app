@@ -7,97 +7,123 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import UserAccess from "../components/UserAccess";
 
-const Result = ({user , formData}) => {
+const Result = ({ user }) => {
     const navigate = useNavigate();
-    const [evaluations, setEvaluations] = useState([]);
+    const { id } = useParams(); // รับ id จาก URL
+    const [formData, setFormData] = useState(null); // กำหนดค่าเริ่มต้นเป็น null
+    const [evaluators, setEvaluators] = useState([]);
+    const [userNames, setUserNames] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchEvaluations = async () => {
+        const fetchEvaluation = async (userId) => {
             try {
-                const response = await axios.get('http://localhost:3001/evaluations');
-                setEvaluations(response.data);
+                // ดึงข้อมูลการประเมินของผู้ใช้ที่มี id
+                const response = await axios.get(`http://localhost:3001/evaluations`);
+                if (response.status === 200) {
+                    setFormData(response.data);
+                    
+                    // ดึงข้อมูลผู้ประเมินจาก formData.evaluators
+                    const evaluatorId = response.data.evaluators;
+                    if (evaluatorId) {
+                        const evaluatorResponse = await axios.get(`http://localhost:3001/users/${evaluatorId}`);
+                        if (evaluatorResponse.status === 200) {
+                            setEvaluators([evaluatorResponse.data]);
+                            setUserNames({ [evaluatorResponse.data._id]: `${evaluatorResponse.data.first_name} ${evaluatorResponse.data.last_name}` });
+                        }
+                    }
+                } else {
+                    setError('ไม่พบข้อมูลการประเมิน');
+                }
             } catch (error) {
+                console.error('Error fetching evaluation:', error);
                 setError('เกิดข้อผิดพลาดในการดึงข้อมูล');
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchEvaluations();
-    }, []);
+        fetchEvaluation();
+    }, [id]);
 
     if (loading) return <p>กำลังโหลดข้อมูล...</p>;
-    if (error) return <p>{error}</p>;
+    if (error) return (
+        <div>
+            <p>{error}</p>
+            <button onClick={() => navigate('/')}>กลับไปที่หน้าหลัก</button>
+        </div>
+    );
+
+    if (!formData) return <p>ไม่มีข้อมูลการประเมิน</p>;
+
     const { firstname } = formData;
-    const  {
-      quantity = 0,
-      achievement = 0,
-      reliability = 0,
-      justinTime = 0,
-      saving = 0,
-      finallyscore = 0,
-      qualityOfWork = 0,
-      reliabilityOfTheWork = 0,
-      timeLiness = 0,
-      personality = 0,
-      maintaining = 0,
-      communication = 0,
-      relationship = 0,
-      sacrifice = 0,
-      cooperate = 0,
-      conduct = 0,
-      punctuality = 0,
-      focused = 0,
-      initiative = 0,
-      knowledge = 0,
-      sense = 0,
-      development = 0,
-      vision = 0
-  } = formData;
-  const evaluators = []; // Fetch or define this based on your application logic
-  const userNames = {}; // Define or fetch user names mapping
-  // ฟังก์ชันการคำนวณคะแนนรวม
-  const calculateTotal = (values) => values.reduce((acc, value) => acc + Number(value), 0);
-  const calculateAverage = (total, count) => total / count;
-  
-  // คำนวณคะแนนของกลุ่มงานประจำ
-  const dataQuantity = calculateTotal([quantity, achievement, reliability, justinTime, saving]);
-  const performanceQuantity = calculateTotal([finallyscore, qualityOfWork, reliabilityOfTheWork, timeLiness]);
-  const combinedTotal = dataQuantity + performanceQuantity;
-  const combinedAverage = calculateAverage(combinedTotal, 5);
-  
-  // คำนวณคะแนนสมรรถนะ
-  const competencyQuantity = calculateTotal([personality, maintaining, communication, relationship, sacrifice, cooperate, conduct, punctuality, focused, initiative, knowledge, sense, development, vision]);
-  const competencyAverage = calculateAverage(competencyQuantity, 15);
-  
-  // สร้างข้อมูลสำหรับการประเมิน
-  const data = [combinedAverage, competencyAverage];
-  const evaluation = data.reduce((acc, value) => acc + value, 0);
-  
-  // ฟังก์ชันการประเมินเกณฑ์
-  const getEvaluationCriteria = (score) => {
-      if (score >= 90) return "ดีเด่น";
-      if (score >= 80) return "ดีมาก";
-      if (score >= 70) return "ดี";
-      if (score >= 60) return "พอใช้";
-      return "ต้องปรับปรุง";
-  };
-  
-  const getEvaluationColor = (criteria) => {
-      switch (criteria) {
-          case "ดีเด่น": return "#108600c4";
-          case "ดีมาก": return "#16be00c4";
-          case "ดี": return "#f5c800";
-          case "พอใช้": return "#ffa500";
-          case "ต้องปรับปรุง": return "#f00";
-          default: return "#000";
-      }
-  };
-  
-  const evaluationCriteria = getEvaluationCriteria(evaluation);
-  const evaluationColor = getEvaluationColor(evaluationCriteria);
+    const {
+        quantity = 0,
+        achievement = 0,
+        reliability = 0,
+        justinTime = 0,
+        saving = 0,
+        finallyscore = 0,
+        qualityOfWork = 0,
+        reliabilityOfTheWork = 0,
+        timeLiness = 0,
+        personality = 0,
+        maintaining = 0,
+        communication = 0,
+        relationship = 0,
+        sacrifice = 0,
+        cooperate = 0,
+        conduct = 0,
+        punctuality = 0,
+        focused = 0,
+        initiative = 0,
+        knowledge = 0,
+        sense = 0,
+        development = 0,
+        vision = 0
+    } = formData;
+
+    // ฟังก์ชันการคำนวณคะแนนรวม
+    const calculateTotal = (values) => values.reduce((acc, value) => acc + Number(value), 0);
+    const calculateAverage = (total, count) => total / count;
+
+    // คำนวณคะแนนของกลุ่มงานประจำ
+    const dataQuantity = calculateTotal([quantity, achievement, reliability, justinTime, saving]);
+    const performanceQuantity = calculateTotal([finallyscore, qualityOfWork, reliabilityOfTheWork, timeLiness]);
+    const combinedTotal = dataQuantity + performanceQuantity;
+    const combinedAverage = calculateAverage(combinedTotal, 5);
+
+    // คำนวณคะแนนสมรรถนะ
+    const competencyQuantity = calculateTotal([personality, maintaining, communication, relationship, sacrifice, cooperate, conduct, punctuality, focused, initiative, knowledge, sense, development, vision]);
+    const competencyAverage = calculateAverage(competencyQuantity, 15);
+
+    // สร้างข้อมูลสำหรับการประเมิน
+    const data = [combinedAverage, competencyAverage];
+    const evaluation = data.reduce((acc, value) => acc + value, 0);
+
+    // ฟังก์ชันการประเมินเกณฑ์
+    const getEvaluationCriteria = (score) => {
+        if (score >= 90) return "ดีเด่น";
+        if (score >= 80) return "ดีมาก";
+        if (score >= 70) return "ดี";
+        if (score >= 60) return "พอใช้";
+        return "ต้องปรับปรุง";
+    };
+
+    const getEvaluationColor = (criteria) => {
+        switch (criteria) {
+            case "ดีเด่น": return "#108600c4";
+            case "ดีมาก": return "#16be00c4";
+            case "ดี": return "#f5c800";
+            case "พอใช้": return "#ffa500";
+            case "ต้องปรับปรุง": return "#f00";
+            default: return "#000";
+        }
+    };
+
+    const evaluationCriteria = getEvaluationCriteria(evaluation);
+    const evaluationColor = getEvaluationColor(evaluationCriteria);
   
   return (
       <div className={styles.resultPage}>
@@ -105,7 +131,7 @@ const Result = ({user , formData}) => {
               <FontAwesomeIcon icon={faArrowLeft} />
           </button>
           <div>
-              <UserAccess user={user} />
+
               <h1>ผลการประเมินของ {firstname}</h1>
               <pre>{JSON.stringify(formData, null, 2)}</pre>
   

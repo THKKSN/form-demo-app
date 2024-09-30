@@ -163,7 +163,7 @@ app.post('/evaluations', async (req, res) => {
 
 app.get('/evaluations', async (req, res) => {
   try {
-      const evaluations = await Evaluation.find();
+      const evaluations = await Evaluation.findOne();
       res.json(evaluations);
   } catch (error) {
       res.status(500).json({ message: 'Error fetching evaluations' });

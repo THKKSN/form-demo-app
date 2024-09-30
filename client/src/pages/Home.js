@@ -79,7 +79,7 @@ const Home = () => {
               </Link>
             </li>
             <li>
-              <Link to="/dashboard">
+              <Link to="/selectevaluation">
                 ผลการประเมิน
                 <span></span>
                 <span></span>
