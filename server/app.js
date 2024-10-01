@@ -162,13 +162,21 @@ app.post('/evaluations', async (req, res) => {
 
 
 app.get('/evaluations', async (req, res) => {
+  const evaluatorId = req.params.id; // รับ ID จากพารามิเตอร์ใน URL
   try {
-      const evaluations = await Evaluation.findOne();
-      res.json(evaluations);
+      const evaluation = await Evaluation.find({ evaluatorId }); 
+      if (!evaluation) {
+          return res.status(404).json({ message: "Evaluation not found" }); 
+      }
+      res.json(evaluation); 
   } catch (error) {
-      res.status(500).json({ message: 'Error fetching evaluations' });
+      res.status(500).json({ message: "Server error" }); 
   }
 });
+
+
+
+
 
 
 module.exports = app;

@@ -9,11 +9,11 @@ h2 {
 
 .container {
   display: flex;
-  flex-direction: row; /* เรียงกราฟและตารางในแนวตั้ง */
-  justify-content: center; /* จัดตำแหน่งกราฟและตารางตรงกลางแนวตั้ง */
-  min-height: 100vh; /* ให้ความสูงอย่างน้อยของ container เท่ากับความสูงของหน้าจอ */
+  flex-direction: row; 
+  justify-content: center; 
+  min-height: 100vh; 
   padding: 20px;
-  box-sizing: border-box; /* รวม padding และ border เข้ากับขนาดรวมของ container */
+  box-sizing: border-box; 
 }
 
 .graphContainer,

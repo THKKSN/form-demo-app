@@ -244,16 +244,18 @@ const Form = () => {
     console.log("ฟอร์มที่ส่ง :", formData);
 
     try {
-      const response = await submitFormData(formData);
-      if (response.status === 200) {
-        console.log("การประเมินถูกบันทึกเรียบร้อยแล้ว");
-        navigate("/success");
-      }
+      // ส่งข้อมูลฟอร์ม
+      await submitFormData(formData);
+
+      // เปลี่ยนหน้าไปที่ "/success" ทันทีหลังจากส่งฟอร์มสำเร็จ
+      console.log("การประเมินถูกบันทึกเรียบร้อยแล้ว");
+      navigate("/success");
     } catch (error) {
       console.error("เกิดข้อผิดพลาดในการส่งข้อมูล:", error.message);
       setError(error.message);
     }
   };
+
   
 
   
@@ -477,7 +479,7 @@ const Form = () => {
             {formError && (
               <p style={{ color: "red" }}>กรุณากรอกข้อมูลให้ครบทุกข้อ</p>
             )}
-            <button className={styles.submit} type="submit" onClick={handleSubmit}>
+            <button className={styles.submit} type="submit">
               Submit
             </button>
             {error && <p className={styles.error}>{error}</p>}

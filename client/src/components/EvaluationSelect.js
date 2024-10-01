@@ -41,7 +41,8 @@ const EvaluationSelect = () => {
 
   return (
     <div className={styles.container}>
-      <label htmlFor="evaluator-select">เลือกผู้ได้รับการประเมิน:</label>
+      <label htmlFor="evaluator-select">เลือกผู้ได้รับการประเมิน</label>
+      <br></br>
       <select 
         id="evaluator-select" 
         value={selectedEvaluator} 
@@ -49,7 +50,7 @@ const EvaluationSelect = () => {
       >
         <option value="">-- เลือกผู้ได้รับการประเมิน --</option>
         {evaluators.map((evaluator) => (
-          <option key={evaluator._id} value={evaluator._id}>
+          <option key={evaluator._id} value={evaluator.id}>
             {`${evaluator.first_name} ${evaluator.last_name}`}
           </option>
         ))}
