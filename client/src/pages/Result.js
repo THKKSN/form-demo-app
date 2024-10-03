@@ -1,136 +1,113 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import CircularGraph from "../components/CircularGraph";
-import styles from "../styles/css/resultPage/Result.module.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import CircularGraph from "../components/CircularGraph"; 
+import styles from '../styles/css/resultPage/Result.module.css';
 
 const Result = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const evaluatorId = location.state?.evaluatorId;
-    const [evaluators, setEvaluators] = useState('');
-    const [formData, setFormData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    console.log('Fetching evaluation for ID:', evaluatorId);
+  const { evaluators } = useParams(); 
+  const [evaluationData, setEvaluationData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchEvaluationData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3001/evaluations/${evaluatorId}`);
-                const evaluation = response.data;
-                setFormData(evaluation);
-
-                // Fetch evaluator's details using evaluatorId
-                const evaluatorResponse = await axios.get(`http://localhost:3001/users/${evaluation.evaluators}`);
-                const evaluator = evaluatorResponse.data;
-
-                // Set evaluator name
-                setEvaluators(`${evaluator.first_name} ${evaluator.last_name}`);
-            } catch (error) {
-                setError('เกิดข้อผิดพลาดในการดึงข้อมูล');
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (evaluatorId) {
-            fetchEvaluationData();
-        }
-    }, [evaluatorId]);
-
-    if (loading) return <p>Loading...</p>;
-    if (error) return (
-        <div>
-            <p>{error}</p>
-            <button onClick={() => navigate('/')}>กลับไปที่หน้าหลัก</button>
-        </div>
-    );
-
-    if (!formData) return <p>ไม่มีข้อมูลการประเมิน</p>;
-
-    const {
-        quantity = 0,
-        achievement = 0,
-        reliability = 0,
-        justinTime = 0,
-        saving = 0,
-        finallyscore = 0,
-        qualityOfWork = 0,
-        reliabilityOfWork = 0,
-        timeliness = 0,
-        personality = 0,
-        maintaining = 0,
-        communication = 0,
-        relationship = 0,
-        sacrifice = 0,
-        cooperation = 0,
-        conduct = 0,
-        punctuality = 0,
-        focused = 0,
-        initiative = 0,
-        knowledge = 0,
-        sense = 0,
-        development = 0,
-        vision = 0
-    } = formData;
-
-    const calculateTotal = (values) => values.reduce((acc, value) => acc + Number(value), 0);
-    const calculateAverage = (total, count) => (count > 0 ? total / count : 0);
-
-    const dataQuantity = calculateTotal([quantity, achievement, reliability, justinTime, saving]);
-    const performanceQuantity = calculateTotal([finallyscore, qualityOfWork, reliabilityOfWork, timeliness]);
-    const combinedTotal = dataQuantity + performanceQuantity;
-    const combinedAverage = calculateAverage(combinedTotal, 5);
-
-    const competencyQuantity = calculateTotal([personality, maintaining, communication, relationship, sacrifice, cooperation, conduct, punctuality, focused, initiative, knowledge, sense, development, vision]);
-    const competencyAverage = calculateAverage(competencyQuantity, 12); // Change to 12 based on your metrics
-
-    const data = [combinedAverage, competencyAverage];
-    const evaluation = data.reduce((acc, value) => acc + value, 0).toFixed(2);
-
-    const getEvaluationCriteria = (score) => {
-        if (score >= 90) return "ดีเด่น";
-        if (score >= 80) return "ดีมาก";
-        if (score >= 70) return "ดี";
-        if (score >= 60) return "พอใช้";
-        return "ต้องปรับปรุง";
+  useEffect(() => {
+    const fetchEvaluationData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`http://localhost:3001/evaluations/${evaluators}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setEvaluationData(response.data); 
+        setLoading(false);
+      } catch (error) {
+        setError("Error fetching evaluation data");
+        setLoading(false);
+      }
     };
 
-    const getEvaluationColor = (criteria) => {
-        switch (criteria) {
-            case "ดีเด่น": return "#108600c4";
-            case "ดีมาก": return "#16be00c4";
-            case "ดี": return "#f5c800";
-            case "พอใช้": return "#ffa500";
-            case "ต้องปรับปรุง": return "#f00";
-            default: return "#000";
-        }
-    };
+    fetchEvaluationData();
+  }, [evaluators]);
+  console.log("evaluators ID :",evaluators)
+  if (loading) return <p>Loading evaluation data...</p>;
+  if (error) return <p>{error}</p>;
 
-    const evaluationCriteria = getEvaluationCriteria(evaluation);
-    const evaluationColor = getEvaluationColor(evaluationCriteria);
-    return (
-        <div className={styles.resultPage}>
-            <button className={styles.backButton} onClick={() => navigate("/")}>
-                <FontAwesomeIcon icon={faArrowLeft} />
-            </button>
-            <div>
-                <h1>ผลการประเมินของ</h1>
-                <h2>ผู้ประเมิน {evaluators.map((evaluator) => (
-          <option key={evaluator._id} value={evaluator.id}>
-            {`${evaluator.first_name} ${evaluator.last_name}`}
-          </option>
-        ))}</h2>
-            </div>
-            <h2>ผลการประเมิน</h2>
-            <div className={styles.container}>
-                <div className={styles.graphContainer}>
-                    <CircularGraph data={data} labels={["ผลสัมฤทธิ์ของงาน", "สมรรถนะกำลังพล"]} evaluation={evaluation} />
-                    <div className={styles.evaluationText} style={{ color: evaluationColor }}>
+  const {
+    quantity = 0,
+    achievement = 0,
+    reliability = 0,
+    justinTime = 0,
+    saving = 0,
+    finallyscore = 0,
+    qualityOfWork = 0,
+    reliabilityOfWork = 0,
+    timeliness = 0,
+    personality = 0,
+    maintaining = 0,
+    communication = 0,
+    relationship = 0,
+    sacrifice = 0,
+    cooperation = 0,
+    conduct = 0,
+    punctuality = 0,
+    focused = 0,
+    initiative = 0,
+    knowledge = 0,
+    sense = 0,
+    development = 0,
+    vision = 0
+  } = evaluationData;
+
+  // Calculation logic remains the same
+  const calculateTotal = (values) => values.reduce((acc, value) => acc + Number(value), 0);
+  const calculateAverage = (total, count) => (count > 0 ? total / count : 0);
+
+  const dataQuantity = calculateTotal([quantity, achievement, reliability, justinTime, saving]);
+  const performanceQuantity = calculateTotal([finallyscore, qualityOfWork, reliabilityOfWork, timeliness]);
+  const combinedTotal = dataQuantity + performanceQuantity;
+  const combinedAverage = calculateAverage(combinedTotal, 5);
+
+  const competencyQuantity = calculateTotal([personality, maintaining, communication, relationship, sacrifice, cooperation, conduct, punctuality, focused, initiative, knowledge, sense, development, vision]);
+  const competencyAverage = calculateAverage(competencyQuantity, 12);
+
+  const data = [combinedAverage, competencyAverage];
+  const evaluation = data.reduce((acc, value) => acc + value, 0).toFixed(2);
+
+  const getEvaluationCriteria = (score) => {
+    if (score >= 90) return "ดีเด่น";
+    if (score >= 80) return "ดีมาก";
+    if (score >= 70) return "ดี";
+    if (score >= 60) return "พอใช้";
+    return "ต้องปรับปรุง";
+  };
+
+  const getEvaluationColor = (criteria) => {
+    switch (criteria) {
+      case "ดีเด่น": return "#108600c4";
+      case "ดีมาก": return "#16be00c4";
+      case "ดี": return "#f5c800";
+      case "พอใช้": return "#ffa500";
+      case "ต้องปรับปรุง": return "#f00";
+      default: return "#000";
+    }
+  };
+
+  const evaluationCriteria = getEvaluationCriteria(evaluation);
+  const evaluationColor = getEvaluationColor(evaluationCriteria);
+
+  return (
+    <div className={styles.resultPage}>
+      <button className={styles.backButton} onClick={() => navigate("/")}>
+        Back
+      </button>
+      <h1>ผลการประเมินของ</h1>
+      <h2>การประเมินของ {evaluators}</h2>
+      <div className={styles.container}>
+        <div className={styles.graphContainer}>
+          <CircularGraph data={data} labels={["ผลสัมฤทธิ์ของงาน", "สมรรถนะกำลังพล"]} evaluation={evaluation} />
+          <div className={styles.evaluationText} style={{ color: evaluationColor }}>
                         <p>เกณฑ์การประเมิน:</p>
                         <h3>{evaluationCriteria}</h3>
                     </div>

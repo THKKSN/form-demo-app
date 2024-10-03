@@ -8,7 +8,7 @@ const EvaluationSelect = () => {
   const [selectedEvaluator, setSelectedEvaluator] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();  // ใช้สำหรับการนำทาง
+  const navigate = useNavigate();  
 
   useEffect(() => {
     const fetchEvaluators = async () => {
@@ -32,9 +32,11 @@ const EvaluationSelect = () => {
 
   const handleEvaluatorSelect = () => {
     if (selectedEvaluator) {
-      navigate('/dashboard', { state: { evaluatorId: selectedEvaluator } });
+      navigate(`/result/${encodeURIComponent(selectedEvaluator)}`);
     }
   };
+  
+  
 
   if (loading) return <p>Loading evaluators...</p>;
   if (error) return <p>{error}</p>;
@@ -49,9 +51,9 @@ const EvaluationSelect = () => {
         onChange={(e) => setSelectedEvaluator(e.target.value)}
       >
         <option value="">-- เลือกผู้ได้รับการประเมิน --</option>
-        {evaluators.map((evaluator) => (
-          <option key={evaluator._id} value={evaluator.id}>
-            {`${evaluator.first_name} ${evaluator.last_name}`}
+        {evaluators.map((evaluators) => (
+          <option key={evaluators._id} value={evaluators.id}>
+            {`${evaluators.first_name} ${evaluators.last_name}`}
           </option>
         ))}
       </select>

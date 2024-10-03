@@ -161,10 +161,10 @@ app.post('/evaluations', async (req, res) => {
 });
 
 
-app.get('/evaluations', async (req, res) => {
+app.get('/evaluations/:id', async (req, res) => {
   const evaluatorId = req.params.id; // รับ ID จากพารามิเตอร์ใน URL
   try {
-      const evaluation = await Evaluation.find({ evaluatorId }); 
+      const evaluation = await Evaluation.findOne({ evaluators: evaluatorId }); // ค้นหา evaluation โดยใช้ evaluatorId
       if (!evaluation) {
           return res.status(404).json({ message: "Evaluation not found" }); 
       }
@@ -173,10 +173,4 @@ app.get('/evaluations', async (req, res) => {
       res.status(500).json({ message: "Server error" }); 
   }
 });
-
-
-
-
-
-
 module.exports = app;
