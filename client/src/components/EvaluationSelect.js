@@ -52,7 +52,7 @@ const EvaluationSelect = () => {
       >
         <option value="">-- เลือกผู้ได้รับการประเมิน --</option>
         {evaluators.map((evaluators) => (
-          <option key={evaluators._id} value={evaluators.id}>
+          <option key={evaluators._id} value={evaluators._id}>
             {`${evaluators.first_name} ${evaluators.last_name}`}
           </option>
         ))}

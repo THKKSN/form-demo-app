@@ -39,17 +39,23 @@ const EvaluatorSelection = ({ formValues = { evaluators: [] }, setFormValues }) 
   }, []);
 
   const handleSelectChange = (event) => {
-    const selectedEvaluator = event.target.value;
+    const selectedEvaluatorId = event.target.value;
+  
+    // Find the selected evaluator object from the evaluators array
+    const selectedEvaluator = evaluators.find(user => user._id === selectedEvaluatorId);
   
     if (selectedEvaluator) {
       setFormValues((prevValues) => ({
         ...prevValues,
-        evaluators: selectedEvaluator, 
+        evaluators: selectedEvaluatorId, // Store the selected evaluator ID
+        evaluators_first_name: selectedEvaluator.first_name, // Store the first name
+        evaluators_last_name: selectedEvaluator.last_name, // Store the last name
       }));
   
-      console.log('Evaluator saved successfully.');
+      console.log('Evaluator selected successfully:', selectedEvaluator.first_name, selectedEvaluator.last_name);
     }
   };  
+  
   
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;

@@ -8,8 +8,8 @@ const UserSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   token: { type: String },
-  isAdmin: { type: Boolean, default: false }, // เพิ่มฟิลด์สำหรับแยกแอดมิน
-  receivedEvaluations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] // เก็บข้อมูลว่าได้รับการประเมินจากใครบ้าง
+  isAdmin: { type: Boolean, default: false }, 
+  receivedEvaluations: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] 
 });
 
 module.exports = mongoose.model("User", UserSchema);

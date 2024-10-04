@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const EvaluationSchema = new mongoose.Schema({
   evaluators: String,
   evaluation: String,
+  evaluators_first_name : String,
+  evaluators_last_name : String,
   quantity: Number,
   achievement: Number,
   reliability: Number,

@@ -11,10 +11,13 @@ import { submitFormData } from '../api/api.js';
 const Form = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem('userId');
-
+  const first_name = localStorage.getItem('first_name');
+  const last_name = localStorage.getItem('last_name');
   const { formValues, setFormValues, handleChange, validateForm } = useForm({
     evaluators: '',
     evaluation: userId,
+    evaluators_first_name: first_name ,
+    evaluators_last_name: last_name ,
     quantity: 0,
     achievement: 0,
     reliability: 0,

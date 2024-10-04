@@ -64,9 +64,7 @@ const CircularGraph = ({ data, labels, evaluation }) => {
     },
   };
 
-  console.log(`Evaluation: ${evaluation}`);
   const evaluationColor = getEvaluationColor(evaluation);
-  console.log(`Color: ${evaluationColor}`);
 
   return (
     <div className={styles.graphContainer}>

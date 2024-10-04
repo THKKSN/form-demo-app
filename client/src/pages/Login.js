@@ -1,38 +1,35 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; // นำเข้าไอคอนดวงตา
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import "../styles/css/loginPage/Login.css"
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false); // สถานะสำหรับการเปิดปิดรหัสผ่าน
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
-    // ประกาศ handleLogin ก่อน
     const handleLogin = async (credentials) => {
         try {
             const response = await axios.post('http://localhost:3001/login', credentials);
-            const { token, _id: userId } = response.data; // Ensure the userId is extracted correctly
+            const { token, _id: userId } = response.data; 
     
-            // Store both token and userId in localStorage
+
             localStorage.setItem('token', token);
-            localStorage.setItem('userId', userId); // Store the userId as well
+            localStorage.setItem('userId', userId); 
         } catch (error) {
             console.error('Login error:', error);
         }
     };
 
-    // ใช้ handleLogin ในการบันทึกข้อมูล
+
     const handleSubmit = async (e) => {
         e.preventDefault();
     
         try {
-            // เรียกใช้ handleLogin เพื่อบันทึกทั้ง token และ userId
             await handleLogin({ username, password });
             
-            // นำทางไปยังหน้า Home หลังจากเข้าสู่ระบบสำเร็จ
             navigate('/');
         } catch (error) {
             console.error('Error:', error);
@@ -55,7 +52,7 @@ const Login = () => {
                     />
                     <div className="password-container">
                         <input 
-                            type={showPassword ? "text" : "password"}  // เปลี่ยนประเภท input
+                            type={showPassword ? "text" : "password"} 
                             name="password" 
                             placeholder="Password" 
                             required 
@@ -66,7 +63,7 @@ const Login = () => {
                             className="toggle-password" 
                             onClick={() => setShowPassword(!showPassword)}
                         >
-                            {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />} {/* แสดงไอคอน */}
+                            {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
                         </span>
                     </div>
                     <button type="submit">Login</button>

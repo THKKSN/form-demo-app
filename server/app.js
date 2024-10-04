@@ -140,15 +140,17 @@ app.get('/user/evaluations', auth, async (req, res) => {
 //save form
 app.post('/evaluations', async (req, res) => {
   try {
-    const { evaluators, evaluation, ...otherData } = req.body;
+    const { evaluators, evaluation, first_name, last_name, ...otherData } = req.body;
 
-    if (!evaluation || !evaluators || evaluators.length === 0) {
+    if (!evaluation || !evaluators || first_name || last_name || evaluators.length === 0) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
     const evaluationData = new Evaluation({
       evaluators: evaluators, 
       evaluation: evaluation,
+      evaluators_first_name: first_name,
+      evaluators_last_name: last_name,
       ...otherData
     });
 
@@ -160,17 +162,24 @@ app.post('/evaluations', async (req, res) => {
   }
 });
 
-
+//open result evaluation
 app.get('/evaluations/:id', async (req, res) => {
-  const evaluatorId = req.params.id; // รับ ID จากพารามิเตอร์ใน URL
+  const evaluatorId = req.params.id; 
   try {
-      const evaluation = await Evaluation.findOne({ evaluators: evaluatorId }); // ค้นหา evaluation โดยใช้ evaluatorId
+      const evaluation = await Evaluation.findOne({ evaluators: evaluatorId }).populate('evaluators', 'first_name last_name');
+      
       if (!evaluation) {
-          return res.status(404).json({ message: "Evaluation not found" }); 
+          return res.status(404).json({ message: "Evaluation not found" });
       }
+
+      console.log("Evaluation found: ", evaluation);
+
       res.json(evaluation); 
   } catch (error) {
+      console.error("Error fetching evaluation:", error);
       res.status(500).json({ message: "Server error" }); 
   }
 });
+
+
 module.exports = app;

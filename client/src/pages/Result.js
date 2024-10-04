@@ -20,19 +20,26 @@ const Result = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+                 
         setEvaluationData(response.data); 
         setLoading(false);
       } catch (error) {
-        setError("Error fetching evaluation data");
+        console.error("Error fetching evaluation data:", error);
+        setError("ไม่มีข้อมูลแสดงผล");
         setLoading(false);
       }
     };
-
+  
     fetchEvaluationData();
   }, [evaluators]);
-  console.log("evaluators ID :",evaluators)
+  
+
   if (loading) return <p>Loading evaluation data...</p>;
   if (error) return <p>{error}</p>;
+
+  const evaluatorName = evaluationData
+    ? `${evaluationData.evaluators_first_name} ${evaluationData.evaluators_last_name}`
+    : "No evaluator data";
 
   const {
     quantity = 0,
@@ -60,7 +67,6 @@ const Result = () => {
     vision = 0
   } = evaluationData;
 
-  // Calculation logic remains the same
   const calculateTotal = (values) => values.reduce((acc, value) => acc + Number(value), 0);
   const calculateAverage = (total, count) => (count > 0 ? total / count : 0);
 
@@ -102,8 +108,8 @@ const Result = () => {
       <button className={styles.backButton} onClick={() => navigate("/")}>
         Back
       </button>
-      <h1>ผลการประเมินของ</h1>
-      <h2>การประเมินของ {evaluators}</h2>
+      <h1>ผลการประเมิน</h1>
+      <h2>การประเมินของคุณ : {evaluatorName}</h2>
       <div className={styles.container}>
         <div className={styles.graphContainer}>
           <CircularGraph data={data} labels={["ผลสัมฤทธิ์ของงาน", "สมรรถนะกำลังพล"]} evaluation={evaluation} />

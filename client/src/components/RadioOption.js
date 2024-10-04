@@ -27,11 +27,11 @@ const RadioOption = ({ options, name, value, onChange }) => {
 
 RadioOption.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, // รองรับทั้ง string และ number
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, 
     label: PropTypes.string.isRequired,
   })).isRequired,
   name: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, // เปลี่ยนเป็นรองรับทั้งสองชนิด
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, 
   onChange: PropTypes.func.isRequired,
 };
 
