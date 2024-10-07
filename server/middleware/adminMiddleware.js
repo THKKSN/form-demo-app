@@ -1,9 +1,9 @@
-// Middleware สำหรับตรวจสอบสิทธิ์ Admin
-const adminMiddleware = (req, res, next) => {
-  if (!req.user.isAdmin) {
-    return res.status(403).json({ message: "Access Denied: Admins Only" });
+const verifyAdmin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+      next();
+  } else {
+      res.status(403).json({ message: 'Access denied. Admins only.' });
   }
-  next();
 };
 
-module.exports = adminMiddleware;
+module.exports = verifyAdmin;

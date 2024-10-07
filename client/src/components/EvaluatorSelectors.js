@@ -40,16 +40,15 @@ const EvaluatorSelection = ({ formValues = { evaluators: [] }, setFormValues }) 
 
   const handleSelectChange = (event) => {
     const selectedEvaluatorId = event.target.value;
-  
-    // Find the selected evaluator object from the evaluators array
+
     const selectedEvaluator = evaluators.find(user => user._id === selectedEvaluatorId);
   
     if (selectedEvaluator) {
       setFormValues((prevValues) => ({
         ...prevValues,
-        evaluators: selectedEvaluatorId, // Store the selected evaluator ID
-        evaluators_first_name: selectedEvaluator.first_name, // Store the first name
-        evaluators_last_name: selectedEvaluator.last_name, // Store the last name
+        evaluators: selectedEvaluatorId, 
+        evaluators_first_name: selectedEvaluator.first_name, 
+        evaluators_last_name: selectedEvaluator.last_name, 
       }));
   
       console.log('Evaluator selected successfully:', selectedEvaluator.first_name, selectedEvaluator.last_name);
@@ -62,7 +61,7 @@ const EvaluatorSelection = ({ formValues = { evaluators: [] }, setFormValues }) 
 
   return (
     <div className={styles.evaluators}>
-      <label htmlFor="evaluatorSelect">เลือกผู้ได้รับการประเมิน:</label>
+      <label htmlFor="evaluatorSelect">เลือกผู้ได้รับการประเมิน</label>
       <select className={styles.evaluator_select} id="evaluatorSelect" onChange={handleSelectChange}>
         <option value="">-- โปรดเลือกผู้ได้รับการประเมิน --</option>
         {evaluators.map((user) => (

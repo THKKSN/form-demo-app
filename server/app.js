@@ -4,6 +4,7 @@ require("./config/db").connect();
 const express = require("express");
 const auth = require("./middleware/authMiddleware");
 const corsMiddleware = require('./middleware/coreMiddleware');
+const verifyAdmin = require('./middleware/adminMiddleware'); 
 const Evaluation = require("./models/Evaluation");
 // const mongoose = require('mongoose');
 // const fs = require('fs');
@@ -16,6 +17,7 @@ const evaluationRoutes = require('./routes/evaluationRoutes');
 const evaluatorRoutes = require('./routes/evaluatorRoutes')
 const resultRoutes = require('./routes/resultRoutes')
 const cors = require('cors');
+const verifyToken = require("./middleware/authMiddleware");
 const corsOptions = { origin: 'http://localhost:3000', optionsSuccessStatus: 200 };
 
 app.use(express.json());
@@ -100,6 +102,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
+
 //check user display on home
 app.get("/user", auth, async (req, res) => {
   try {
@@ -112,6 +115,7 @@ app.get("/user", auth, async (req, res) => {
     res.status(200).json({
       first_name: user.first_name,
       last_name: user.last_name,
+      isAdmin: user.isAdmin,
     });
   } catch (err) {
     console.log(err);

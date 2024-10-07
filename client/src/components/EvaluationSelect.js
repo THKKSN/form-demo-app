@@ -43,7 +43,7 @@ const EvaluationSelect = () => {
 
   return (
     <div className={styles.container}>
-      <label htmlFor="evaluator-select">เลือกผู้ได้รับการประเมิน</label>
+      <label htmlFor="evaluator-select">เลือกแสดงคะแนนผู้ได้รับการประเมิน</label>
       <br></br>
       <select 
         id="evaluator-select" 
