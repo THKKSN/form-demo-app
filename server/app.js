@@ -4,11 +4,7 @@ require("./config/db").connect();
 const express = require("express");
 const auth = require("./middleware/authMiddleware");
 const corsMiddleware = require('./middleware/coreMiddleware');
-const verifyAdmin = require('./middleware/adminMiddleware'); 
 const Evaluation = require("./models/Evaluation");
-// const mongoose = require('mongoose');
-// const fs = require('fs');
-// const path = require('path');
 const User = require("./models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -17,7 +13,6 @@ const evaluationRoutes = require('./routes/evaluationRoutes');
 const evaluatorRoutes = require('./routes/evaluatorRoutes')
 const resultRoutes = require('./routes/resultRoutes')
 const cors = require('cors');
-const verifyToken = require("./middleware/authMiddleware");
 const corsOptions = { origin: 'http://localhost:3000', optionsSuccessStatus: 200 };
 
 app.use(express.json());

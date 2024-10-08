@@ -109,142 +109,151 @@ const Result = () => {
         Back
       </button>
       <h1>ผลการประเมิน</h1>
-      <h2>การประเมินของคุณ : {evaluatorName}</h2>
+      <h2>การประเมินของคุณ{evaluatorName}</h2>
       <div className={styles.container}>
         <div className={styles.graphContainer}>
-          <CircularGraph data={data} labels={["ผลสัมฤทธิ์ของงาน", "สมรรถนะกำลังพล"]} evaluation={evaluation} />
-          <div className={styles.evaluationText} style={{ color: evaluationColor }}>
-                        <p>เกณฑ์การประเมิน:</p>
-                        <h3>{evaluationCriteria}</h3>
-                    </div>
-                </div>
-                <div className={styles.tableContainer}>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>แบบประเมินค่า</th>
-                                <th>คะแนน</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td colSpan="2">ผลสัมฤทธิ์ของงาน</td>
-                            </tr>
-                            <tr>
-                                <td colSpan="2">1.1 กลุ่มงานประจำ (เต็ม 100 คะแนน)</td>
-                            </tr>
-                            <tr>
-                                <td>1.1.1 ปริมาณงาน</td>
-                                <td className={styles.rightContainer}>{quantity}</td>
-                            </tr>
-                            <tr>
-                                <td>1.1.2 ผลสำเร็จของงาน</td>
-                                <td className={styles.rightContainer}>{achievement}</td>
-                            </tr>
-                            <tr>
-                                <td>1.1.3 ความเร่งด่วนในการทำงาน</td>
-                                <td className={styles.rightContainer}>{reliability}</td>
-                            </tr>
-                            <tr>
-                                <td>1.1.4 ความทันเวลา</td>
-                                <td className={styles.rightContainer}>{justinTime}</td>
-                            </tr>
-                            <tr>
-                                <td>1.1.5 การประหยัด</td>
-                                <td className={styles.rightContainer}>{saving}</td>
-                            </tr>
-                            <tr>
-                                <td colSpan="2">1.2 กลุ่มงานมอบหมาย (เต็ม 250 คะแนน)</td>
-                            </tr>
-                            <tr>
-                                <td>1.2.1 ผลสำเร็จของงาน</td>
-                                <td className={styles.rightContainer}>{finallyscore}</td>
-                            </tr>
-                            <tr>
-                                <td>1.2.2 คุณภาพของผลงาน</td>
-                                <td className={styles.rightContainer}>{qualityOfWork}</td>
-                            </tr>
-                            <tr>
-                                <td>1.2.3 ความเชื่อถือได้ของผลงาน</td>
-                                <td className={styles.rightContainer}>{reliabilityOfWork}</td>
-                            </tr>
-                            <tr>
-                                <td>1.2.4 ความทันเวลา</td>
-                                <td className={styles.rightContainer}>{timeliness}</td>
-                            </tr>
-                            <tr>
-                                <td>รวมคะแนนผลสัมฤทธิ์ของงาน (เต็ม 350 คะแนน)</td>
-                                <td className={styles.rightContainer}>{combinedTotal}</td>
-                            </tr>
-                            <tr>
-                                <td colSpan="2">สมรรถนะกำลังพล</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.1 บุคลิกภาพ</td>
-                                <td className={styles.rightContainer}>{personality}</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.2 ความสามารถในการทำงานร่วมกัน</td>
-                                <td className={styles.rightContainer}>{maintaining}</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.3 ความสามารถในการสื่อสาร</td>
-                                <td className={styles.rightContainer}>{communication}</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.4 ความสัมพันธ์</td>
-                                <td className={styles.rightContainer}>{relationship}</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.5 การเสียสละ</td>
-                                <td className={styles.rightContainer}>{sacrifice}</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.6 ความร่วมมือ</td>
-                                <td className={styles.rightContainer}>{cooperation}</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.7 การปฏิบัติตน</td>
-                                <td className={styles.rightContainer}>{conduct}</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.8 ความตรงต่อเวลา</td>
-                                <td className={styles.rightContainer}>{punctuality}</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.9 ความมุ่งมั่น</td>
-                                <td className={styles.rightContainer}>{focused}</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.10 ความคิดริเริ่ม</td>
-                                <td className={styles.rightContainer}>{initiative}</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.11 ความรู้</td>
-                                <td className={styles.rightContainer}>{knowledge}</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.12 ความรู้สึก</td>
-                                <td className={styles.rightContainer}>{sense}</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.13 ความพัฒนา</td>
-                                <td className={styles.rightContainer}>{development}</td>
-                            </tr>
-                            <tr>
-                                <td>2.1.14 วิสัยทัศน์</td>
-                                <td className={styles.rightContainer}>{vision}</td>
-                            </tr>
-                            <tr>
-                                <td>รวมคะแนนสมรรถนะกำลังพล (เต็ม 150 คะแนน)</td>
-                                <td className={styles.rightContainer}>{competencyQuantity}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+          <CircularGraph
+            data={data}
+            labels={["ผลสัมฤทธิ์ของงาน", "สมรรถนะกำลังพล"]}
+            evaluation={evaluation}
+          />
+          <div
+            className={styles.evaluationText}
+            style={{ color: evaluationColor }}
+          >
+            <div className={styles.container}>
+              <p>เกณฑ์การประเมิน</p>
+              <h3>{evaluationCriteria}</h3>
             </div>
+          </div>
         </div>
-    );
+        <div className={styles.tableContainer}>
+          <table>
+            <thead>
+              <tr>
+                <th>แบบประเมินค่า</th>
+                <th>คะแนน</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colSpan="2">ผลสัมฤทธิ์ของงาน</td>
+              </tr>
+              <tr>
+                <td colSpan="2">1.1 กลุ่มงานประจำ (เต็ม 100 คะแนน)</td>
+              </tr>
+              <tr>
+                <td>1.1.1 ปริมาณงาน</td>
+                <td className={styles.rightContainer}>{quantity}</td>
+              </tr>
+              <tr>
+                <td>1.1.2 ผลสำเร็จของงาน</td>
+                <td className={styles.rightContainer}>{achievement}</td>
+              </tr>
+              <tr>
+                <td>1.1.3 ความเร่งด่วนในการทำงาน</td>
+                <td className={styles.rightContainer}>{reliability}</td>
+              </tr>
+              <tr>
+                <td>1.1.4 ความทันเวลา</td>
+                <td className={styles.rightContainer}>{justinTime}</td>
+              </tr>
+              <tr>
+                <td>1.1.5 การประหยัด</td>
+                <td className={styles.rightContainer}>{saving}</td>
+              </tr>
+              <tr>
+                <td colSpan="2">1.2 กลุ่มงานมอบหมาย (เต็ม 250 คะแนน)</td>
+              </tr>
+              <tr>
+                <td>1.2.1 ผลสำเร็จของงาน</td>
+                <td className={styles.rightContainer}>{finallyscore}</td>
+              </tr>
+              <tr>
+                <td>1.2.2 คุณภาพของผลงาน</td>
+                <td className={styles.rightContainer}>{qualityOfWork}</td>
+              </tr>
+              <tr>
+                <td>1.2.3 ความเชื่อถือได้ของผลงาน</td>
+                <td className={styles.rightContainer}>{reliabilityOfWork}</td>
+              </tr>
+              <tr>
+                <td>1.2.4 ความทันเวลา</td>
+                <td className={styles.rightContainer}>{timeliness}</td>
+              </tr>
+              <tr>
+                <td>รวมคะแนนผลสัมฤทธิ์ของงาน (เต็ม 350 คะแนน)</td>
+                <td className={styles.rightContainer}>{combinedTotal}</td>
+              </tr>
+              <tr>
+                <td colSpan="2">สมรรถนะกำลังพล</td>
+              </tr>
+              <tr>
+                <td>2.1.1 บุคลิกภาพ</td>
+                <td className={styles.rightContainer}>{personality}</td>
+              </tr>
+              <tr>
+                <td>2.1.2 ความสามารถในการทำงานร่วมกัน</td>
+                <td className={styles.rightContainer}>{maintaining}</td>
+              </tr>
+              <tr>
+                <td>2.1.3 ความสามารถในการสื่อสาร</td>
+                <td className={styles.rightContainer}>{communication}</td>
+              </tr>
+              <tr>
+                <td>2.1.4 ความสัมพันธ์</td>
+                <td className={styles.rightContainer}>{relationship}</td>
+              </tr>
+              <tr>
+                <td>2.1.5 การเสียสละ</td>
+                <td className={styles.rightContainer}>{sacrifice}</td>
+              </tr>
+              <tr>
+                <td>2.1.6 ความร่วมมือ</td>
+                <td className={styles.rightContainer}>{cooperation}</td>
+              </tr>
+              <tr>
+                <td>2.1.7 การปฏิบัติตน</td>
+                <td className={styles.rightContainer}>{conduct}</td>
+              </tr>
+              <tr>
+                <td>2.1.8 ความตรงต่อเวลา</td>
+                <td className={styles.rightContainer}>{punctuality}</td>
+              </tr>
+              <tr>
+                <td>2.1.9 ความมุ่งมั่น</td>
+                <td className={styles.rightContainer}>{focused}</td>
+              </tr>
+              <tr>
+                <td>2.1.10 ความคิดริเริ่ม</td>
+                <td className={styles.rightContainer}>{initiative}</td>
+              </tr>
+              <tr>
+                <td>2.1.11 ความรู้</td>
+                <td className={styles.rightContainer}>{knowledge}</td>
+              </tr>
+              <tr>
+                <td>2.1.12 ความรู้สึก</td>
+                <td className={styles.rightContainer}>{sense}</td>
+              </tr>
+              <tr>
+                <td>2.1.13 ความพัฒนา</td>
+                <td className={styles.rightContainer}>{development}</td>
+              </tr>
+              <tr>
+                <td>2.1.14 วิสัยทัศน์</td>
+                <td className={styles.rightContainer}>{vision}</td>
+              </tr>
+              <tr>
+                <td>รวมคะแนนสมรรถนะกำลังพล (เต็ม 150 คะแนน)</td>
+                <td className={styles.rightContainer}>{competencyQuantity}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Result;
